@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arya Ranjan - Portfolio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4682B4;
+            --secondary-color: #6495ED;
+            --text-color: #333;
+            --white: #fff;
+            --light-bg: #f5f5f5;
+            --gradient-1: linear-gradient(135deg, #4682B4, #6495ED);
+            --gradient-2: linear-gradient(135deg, #6495ED, #4682B4);
+            --shadow-1: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-2: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .navbar {
+            background: var(--white);
+            box-shadow: var(--shadow-1);
+            padding: 0.3rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links a:hover {
+            background: var(--gradient-1);
+            color: var(--white);
+        }
+
+        /* Dropdown styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: var(--white);
+            min-width: 250px;
+            box-shadow: var(--shadow-2);
+            border-radius: 10px;
+            z-index: 1000;
+            top: 100%;
+            left: 0;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.8rem 1.2rem;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 0.2rem 0;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--gradient-1);
+            color: var(--white);
+        }
+
+        .dropdown-content a i {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .submenu {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background: var(--white);
+            min-width: 250px;
+            box-shadow: var(--shadow-2);
+            border-radius: 10px;
+            padding: 0.5rem;
+            margin-left: 0.5rem;
+        }
+
+        .submenu.active {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.8rem 1.2rem;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 0.2rem 0;
+            position: relative;
+        }
+
+        .dropdown-content a.has-submenu::after {
+            content: '\f054';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+        }
+
+        .menu-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            padding: 0.5rem 1.2rem;
+            border-bottom: 1px solid var(--light-bg);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero {
+            margin-top: 60px; /* Add margin to account for fixed navbar */
+            min-height: 50vh;
+            background: var(--gradient-1);
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, var(--white), transparent);
+        }
+
+        /* Animated background elements */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .animated-bg span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s linear infinite;
+            border-radius: 50%;
+        }
+
+        .animated-bg span:nth-child(1) {
+            left: 10%;
+            top: 20%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+
+        .animated-bg span:nth-child(2) {
+            left: 70%;
+            top: 40%;
+            width: 40px;
+            height: 40px;
+            animation-delay: 2s;
+        }
+
+        .animated-bg span:nth-child(3) {
+            left: 40%;
+            top: 60%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 4s;
+        }
+
+        .animated-bg span:nth-child(4) {
+            left: 80%;
+            top: 80%;
+            width: 30px;
+            height: 30px;
+            animation-delay: 6s;
+        }
+
+        .animated-bg span:nth-child(5) {
+            left: 20%;
+            top: 80%;
+            width: 50px;
+            height: 50px;
+            animation-delay: 8s;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            text-transform: none;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s ease;
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s;
+            animation-fill-mode: both;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            animation: fadeInUp 1s ease 0.4s;
+            animation-fill-mode: both;
+        }
+
+        .hero-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .hero-btn.primary {
+            background: var(--white);
+            color: var(--primary-color);
+        }
+
+        .hero-btn.secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-1);
+        }
+
+        .wave {
+            animation: wave 2s infinite;
+            display: inline-block;
+            transform-origin: 70% 70%;
+        }
+
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            10% { transform: rotate(14deg); }
+            20% { transform: rotate(-8deg); }
+            30% { transform: rotate(14deg); }
+            40% { transform: rotate(-4deg); }
+            50% { transform: rotate(10deg); }
+            60% { transform: rotate(0deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .about {
+            padding: 4rem 2rem;
+            background: var(--light-bg);
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+        }
+
+        .experience-content {
+            padding: 2rem;
+        }
+
+        .experience-content h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .experience-company {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .experience-description {
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .experience-details {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .experience-tag {
+            background: var(--light-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .experience-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: var(--light-bg);
+            transition: all 0.3s ease;
+        }
+
+        .experience-link:hover {
+            background: var(--gradient-1);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .experience-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .experience-link:hover i {
+            transform: translateX(5px);
+        }
+
+        .experience-image {
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .experience-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .experience-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .experience-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .experience-title {
+            flex: 1;
+        }
+
+        .experience-title h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary-color);
+        }
+
+        .experience-title .company {
+            font-weight: 500;
+            color: var(--text-color);
+            margin: 0 0 0.25rem 0;
+        }
+
+        .experience-title .duration {
+            color: #666;
+            margin: 0;
+        }
+
+        .experience-description {
+            margin: 1rem 0;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        @media (max-width: 768px) {
+            .experience-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .experience-image {
+                width: 100%;
+                height: 180px;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .experience-section {
+            padding: 4rem 2rem;
+            background: var(--light-bg);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+        }
+
+        .experience-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            margin-left: 2rem;
+            max-width: 1000px;
+        }
+
+        .experience-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+        }
+
+        .experience-description {
+            margin: 1rem 0;
+            line-height: 1.6;
+            color: var(--text-color);
+            padding-left: 1rem;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--gradient-1);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .responsibility-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .responsibility-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .responsibility-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .responsibility-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .responsibility-card li {
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .responsibility-card li:before {
+            content: "•";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        .responsibility-card li:last-child {
+            margin-bottom: 0;
+        }
+
+        .internship-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--gradient-1);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .internship-tag i {
+            font-size: 0.9rem;
+        }
+
+        .internship-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .responsibility-tag {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .responsibility-tag i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .tag-content h4 {
+            color: var(--primary-color);
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .tag-content p {
+            margin: 0;
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .internship-tags {
+            margin-top: 1.5rem;
+        }
+
+        .tag-section {
+            margin-top: 1.5rem;
+        }
+
+        .tag-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: var(--gradient-1);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .tag:hover {
+            transform: translateY(-2px);
+        }
+
+        .tag i {
+            font-size: 0.9rem;
+        }
+
+        .responsibility-section {
+            margin-top: 1.5rem;
+        }
+
+        .responsibility-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .responsibility-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.8rem;
+            background: var(--gradient-1);
+            color: white;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            transition: transform 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tag:hover {
+            transform: translateY(-2px);
+        }
+
+        .tag i {
+            font-size: 0.8rem;
+        }
+
+        .internship-image-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .internship-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .internship-image:hover {
+            transform: scale(1.05);
+        }
+
+        .internship-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .internship-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-1);
+            transition: transform 0.3s ease;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .internship-image-container {
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .internship-content {
+            padding: 0.8rem;
+        }
+
+        .internship-content h3 {
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .internship-description {
+            font-size: 0.8rem;
+            color: var(--light-text);
+            margin-bottom: 0.6rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .internship-tags {
+            display: flex;
+            gap: 0.3rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .internship-tag {
+            background: var(--light-bg);
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .responsibility-tags {
+            display: none;
+        }
+
+        .internship-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .internship-link i {
+            font-size: 0.7rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            padding: 1.2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-1);
+            transition: transform 0.3s ease;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .project-image-container {
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 1rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.6rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .project-description {
+            font-size: 0.9rem;
+            color: var(--light-text);
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .project-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .project-link i {
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header class="navbar">
+        <nav class="nav-container">
+            <div class="logo-text">Arya Ranjan</div>
+            <div class="nav-links">
+                <a href="/#about"><i class="fas fa-user"></i> About</a>
+                <div class="dropdown" id="workDropdown">
+                    <a href="#" onclick="toggleDropdown(event)"><i class="fas fa-briefcase"></i> My Work</a>
+                    <div class="dropdown-content">
+                        <div class="menu-title">Select Category</div>
+                        <a href="#" class="has-submenu" onclick="toggleSubmenu(event, 'internshipSubmenu')">
+                            <i class="fas fa-graduation-cap"></i> Internships
+                        </a>
+                        <div class="submenu" id="internshipSubmenu">
+                            <div class="menu-title">Internship Programs</div>
+                            <a href="/internship1"><i class="fas fa-laptop"></i> Digital Marketing Internship</a>
+                            <a href="/internship2"><i class="fas fa-building"></i> Graduate Training Program</a>
+                            <a href="/internship3"><i class="fas fa-hashtag"></i> Social Media Marketing</a>
+                            <a href="/internship4"><i class="fas fa-users"></i> SUPA Internship</a>
+                            <a href="/internship5"><i class="fas fa-handshake"></i> Customer Relationship</a>
+                        </div>
+                        <a href="#" class="has-submenu" onclick="toggleSubmenu(event, 'projectSubmenu')">
+                            <i class="fas fa-project-diagram"></i> Projects
+                        </a>
+                        <div class="submenu" id="projectSubmenu">
+                            <div class="menu-title">Project Portfolio</div>
+                            <a href="/project1"><i class="fas fa-bullhorn"></i> Integrated Marketing Campaign</a>
+                            <a href="/project2"><i class="fas fa-chart-line"></i> Marketing Analytics Project</a>
+                            <a href="/project3"><i class="fas fa-digital-tachograph"></i> Digital Transformation</a>
+                            <a href="/project4"><i class="fas fa-lightbulb"></i> Entrepreneurship Project</a>
+                        </div>
+                        <a href="/experience"><i class="fas fa-building"></i> Work Experience</a>
+                    </div>
+                </div>
+                <a href="/#contact"><i class="fas fa-envelope"></i> Contact</a>
+                <a href="/analytics" class="analytics-link"><i class="fas fa-chart-line"></i> Analytics</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="animated-bg">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="hero-content fade-in">
+            <h1>Hi, I'm Arya Ranjan</h1>
+            <p class="fade-in">I love turning smart marketing ideas into real results by blending strategy, storytelling, curiosity, and data that keeps everything grounded. I enjoy exploring what makes people click and crafting campaigns that feel simple but work hard.</p>
+            <div class="hero-buttons fade-in">
+                <div class="dropdown">
+                    <a href="#experience" class="hero-btn dropdown-toggle"><i class="fas fa-briefcase"></i> Work Experience</a>
+                    <div class="dropdown-menu">
+                        <a href="#experience" class="dropdown-item"><i class="fas fa-briefcase"></i> Work Experience</a>
+                        <a href="#internship" class="dropdown-item"><i class="fas fa-graduation-cap"></i> Internship</a>
+                        <a href="#projects" class="dropdown-item"><i class="fas fa-project-diagram"></i> Projects</a>
+                    </div>
+                </div>
+                <a href="#contact" class="hero-btn secondary"><i class="fas fa-paper-plane"></i> Get in Touch</a>
+                <a href="#skills" class="hero-btn primary"><i class="fas fa-brain"></i> Skills & Tools</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-content fade-in">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-text fade-in">
+                    <p>A PGDM graduate from XIME Bangalore. I've worked in a B2B setup where I got to understand how marketing really influences business growth. I love digging into data, spotting what's working (and what's not), and using those insights to shape smart, effective marketing strategies. For me, it's all about making ideas click—and getting real results.</p>
+                    <p><strong>Education:</strong> PGDM in Marketing and Analytics</p>
+                    <p><strong>Current Position:</strong> Key Account Manager at MRIBS</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience-section">
+        <div class="section-header">
+            <h2>Work Experience</h2>
+        </div>
+        <div class="experience-card">
+            <div class="experience-header">
+                <div class="experience-image">
+                    <img src="{{ url_for('static', filename='images/B2b_sales.webp') }}" alt="B2B Sales">
+                </div>
+                <div class="experience-title">
+                    <h3>Key Account Manager</h3>
+                    <p class="company">MRIBS</p>
+                    <p class="duration">2021 - Present</p>
+                </div>
+            </div>
+            <p class="experience-description">
+                Worked as key account manager. Managed key client relationships and drove business growth through business and marketing strategic partnerships.
+            </p>
+            <a href="/experience1" class="read-more">Read More</a>
+        </div>
+    </section>
+
+    <!-- Internship Section -->
+    <section id="internship" class="internship">
+        <h2 class="section-title">Internship</h2>
+        <div class="internship-grid">
+            <div class="internship-card">
+                <div class="internship-image-container">
+                    <img src="{{ url_for('static', filename='images/Internship _1.webp') }}" alt="Digital Marketing Internship" class="internship-image">
+                </div>
+                <div class="internship-content">
+                    <h3><i class="fas fa-graduation-cap"></i> Digital Marketing & SEO</h3>
+                    <p class="internship-description">Enhanced Google search rankings and conducted keyword research using SEMrush to improve website visibility and organic search performance.</p>
+                    <div class="internship-tags">
+                        <span class="internship-tag"><i class="fas fa-info-circle"></i> Overview</span>
+                        <span class="internship-tag"><i class="fas fa-tasks"></i> Responsibilities</span>
+                    </div>
+                    <div class="responsibility-tags">
+                        <span class="tag"><i class="fas fa-search"></i> SEO Optimization with SEMrush</span>
+                        <span class="tag"><i class="fas fa-link"></i> Off-Page SEO Strategies</span>
+                        <span class="tag"><i class="fas fa-pen"></i> Content Writing with Keywords</span>
+                        <span class="tag"><i class="fas fa-cogs"></i> Technical SEO & Website Crawling</span>
+                    </div>
+                    <a href="/internship1" class="internship-link">Know More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="internship-card">
+                <div class="internship-image-container">
+                    <img src="{{ url_for('static', filename='images/Internship_2.webp') }}" alt="Graduate Training" class="internship-image">
+                </div>
+                <div class="internship-content">
+                    <h3><i class="fas fa-graduation-cap"></i> Graduate Training</h3>
+                    <p class="internship-description">I worked at a startup company where I got exposure to various roles and responsibilities.</p>
+                    <div class="internship-tags">
+                        <span class="internship-tag"><i class="fas fa-info-circle"></i> Overview</span>
+                        <span class="internship-tag"><i class="fas fa-tasks"></i> Skills</span>
+                    </div>
+                    <div class="responsibility-tags">
+                        <span class="tag"><i class="fas fa-code"></i> HTML</span>
+                        <span class="tag"><i class="fas fa-paint-brush"></i> CSS</span>
+                        <span class="tag"><i class="fas fa-code"></i> JavaScript</span>
+                        <span class="tag"><i class="fas fa-database"></i> SQL</span>
+                        <span class="tag"><i class="fas fa-code"></i> PHP</span>
+                        <span class="tag"><i class="fas fa-code"></i> Python</span>
+                    </div>
+                    <a href="/internship2" class="internship-link">Know More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="internship-card">
+                <div class="internship-image-container">
+                    <img src="{{ url_for('static', filename='images/Internship_3.webp') }}" alt="Social Media Internship" class="internship-image">
+                </div>
+                <div class="internship-content">
+                    <h3><i class="fas fa-graduation-cap"></i> Social Media</h3>
+                    <p class="internship-description">I worked as a social media intern where I have to manage social media accounts and create engaging content.</p>
+                    <div class="internship-details">
+                        <span class="internship-tag"><i class="fas fa-share-alt"></i> Social Media Management</span>
+                        <span class="internship-tag"><i class="fas fa-pen"></i> Content Creation</span>
+                        <span class="internship-tag"><i class="fas fa-chart-bar"></i> Engagement Analytics</span>
+                    </div>
+                    <a href="/internship3" class="internship-link">Know More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="internship-card">
+                <div class="internship-image-container">
+                    <img src="{{ url_for('static', filename='images/internship_4.webp') }}" alt="SUPA Internship" class="internship-image">
+                </div>
+                <div class="internship-content">
+                    <h3><i class="fas fa-graduation-cap"></i> SUPA</h3>
+                    <p class="internship-description">I worked with an NGO and helped the NGO to organize various campaigns to increase brand awareness.</p>
+                    <div class="internship-details">
+                        <span class="internship-tag"><i class="fas fa-hands-helping"></i> NGO Work</span>
+                        <span class="internship-tag"><i class="fas fa-bullhorn"></i> Campaign Organization</span>
+                        <span class="internship-tag"><i class="fas fa-heart"></i> Brand Awareness</span>
+                    </div>
+                    <a href="/internship4" class="internship-link">Know More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <div class="internship-card">
+                <div class="internship-image-container">
+                    <img src="{{ url_for('static', filename='images/Internship_5.webp') }}" alt="Customer Relationship Management Internship" class="internship-image">
+                </div>
+                <div class="internship-content">
+                    <h3><i class="fas fa-graduation-cap"></i> Customer Relationship Management</h3>
+                    <p class="internship-description">I worked as customer relationship management, where I have generated leads through digital marketing and have to build relationship management.</p>
+                    <div class="internship-details">
+                        <span class="internship-tag"><i class="fas fa-users"></i> CRM</span>
+                        <span class="internship-tag"><i class="fas fa-chart-line"></i> Lead Generation</span>
+                        <span class="internship-tag"><i class="fas fa-handshake"></i> Relationship Building</span>
+                    </div>
+                    <a href="/internship5" class="internship-link">Know More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <h2 class="section-title">Projects</h2>
+        <div class="projects-grid">
+            <!-- Project 1 -->
+            <div class="project-card">
+                <div class="project-image-container">
+                    <img src="{{ url_for('static', filename='images/Dark_Poster.png') }}" alt="Integrated Marketing Communication" class="project-image">
+                </div>
+                <div class="project-content">
+                    <h3><i class="fas fa-bullhorn"></i> Integrated Marketing Communication</h3>
+                    <p class="project-description">A comprehensive marketing strategy project focusing on integrated communication and campaign analytics.</p>
+                    <a href="/project1" class="project-link">View Project <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card">
+                <div class="project-image-container">
+                    <img src="{{ url_for('static', filename='images/MA_poster.png') }}" alt="Marketing Analytics" class="project-image">
+                </div>
+                <div class="project-content">
+                    <h3><i class="fas fa-chart-bar"></i> Marketing Analytics</h3>
+                    <p class="project-description">Data-driven marketing analysis project showcasing analytical skills, strategic insights, Campaign analysis, Market research, data visualization and more.</p>
+                    <a href="/project2" class="project-link">View Project <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card">
+                <div class="project-image-container">
+                    <img src="{{ url_for('static', filename='images/DT_Poster.png') }}" alt="Digital Transformation & ERP" class="project-image">
+                </div>
+                <div class="project-content">
+                    <h3><i class="fas fa-digital-tachograph"></i> Digital Transformation & ERP</h3>
+                    <p class="project-description">Project focusing on digital transformation strategies and ERP optimization.</p>
+                    <a href="/project3" class="project-link">View Project <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="project-card">
+                <div class="project-image-container">
+                    <img src="{{ url_for('static', filename='images/GI_Poster.png') }}" alt="Entrepreneurship" class="project-image">
+                </div>
+                <div class="project-content">
+                    <h3><i class="fas fa-lightbulb"></i> Entrepreneurship</h3>
+                    <p class="project-description">Planned startup operations: marketing, finance, HR, logistics, and funding.</p>
+                    <a href="/project4" class="project-link">View Project <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <h2 class="section-title">Skills & Tools</h2>
+        <div class="skills-container">
+            <!-- Marketing Skills -->
+            <div class="skills-category fade-up">
+                <h3><i class="fas fa-bullhorn"></i> Marketing Strategy</h3>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-handshake"></i></div>
+                        <h4>B2B Marketing</h4>
+                        <div class="skill-level" data-level="95">
+                            <div class="skill-progress"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-chart-line"></i></div>
+                        <h4>Digital Marketing</h4>
+                        <div class="skill-level" data-level="90">
+                            <div class="skill-progress"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-users"></i></div>
+                        <h4>Performance Marketing</h4>
+                        <div class="skill-level" data-level="95">
+                            <div class="skill-progress"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-search"></i></div>
+                        <h4>SEO</h4>
+                        <div class="skill-level" data-level="85">
+                            <div class="skill-progress"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-business-time"></i></div>
+                        <h4>Business Development</h4>
+                        <div class="skill-level" data-level="90">
+                            <div class="skill-progress"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-comments"></i></div>
+                        <h4>Consulting</h4>
+                        <div class="skill-level" data-level="85">
+                            <div class="skill-progress"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Skills -->
+            <div class="skills-category fade-up">
+                <h3><i class="fas fa-chart-bar"></i> Data & Analytics</h3>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-database"></i></div>
+                        <h4>Data Analysis</h4>
+                        <div class="skill-level" data-level="85">
+                            <div class="skill-progress"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-chart-pie"></i></div>
+                        <h4>Visualization</h4>
+                        <div class="skill-level" data-level="80">
+                            <div class="skill-progress"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-brain"></i></div>
+                        <h4>Marketing Analytics</h4>
+                        <div class="skill-level" data-level="90">
+                            <div class="skill-progress"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-flask"></i></div>
+                        <h4>AB Testing</h4>
+                        <div class="skill-level" data-level="85">
+                            <div class="skill-progress"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools -->
+            <div class="skills-category fade-up">
+                <h3><i class="fas fa-tools"></i> Tools & Software</h3>
+                <div class="skills-grid">
+                    <!-- Marketing Tools -->
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-bullhorn"></i></div>
+                        <h4>Marketing Tools</h4>
+                        <div class="tools-list">
+                            <span class="tool-tag"><i class="fab fa-hubspot"></i> HubSpot</span>
+                            <span class="tool-tag"><i class="fas fa-search"></i> SEMrush</span>
+                            <span class="tool-tag"><i class="fab fa-google"></i> Google Ads</span>
+                            <span class="tool-tag"><i class="fas fa-palette"></i> Canva</span>
+                        </div>
+                    </div>
+                    <!-- Analytics Tools -->
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-chart-line"></i></div>
+                        <h4>Analytics Tools</h4>
+                        <div class="tools-list">
+                            <span class="tool-tag"><i class="fab fa-google"></i> Google Analytics</span>
+                            <span class="tool-tag"><i class="fas fa-file-excel"></i> Excel</span>
+                            <span class="tool-tag"><i class="fab fa-facebook"></i> Meta Ads</span>
+                            <span class="tool-tag"><i class="fas fa-chart-bar"></i> Tableau</span>
+                            <span class="tool-tag"><i class="fas fa-database"></i> SQL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="contact-content">
+            <h2 class="section-title">Get In Touch</h2>
+            <p>Want to know more about me? Please contact me here</p>
+            <div class="social-links">
+                <a href="mailto:aryaranjan1210@gmail.com" class="social-link" target="_blank" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/arya-ranjan-758b5b1a4/" class="social-link" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="social-link" onclick="openMessageDialog(event)" title="Leave a Message">
+                    <i class="fas fa-comment-dots"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/project2.js') }}"></script>
+    <script>
+        function toggleDropdown(event) {
+            event.preventDefault();
+            const dropdown = document.getElementById('workDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function toggleSubmenu(event, submenuId) {
+            event.preventDefault();
+            const submenu = document.getElementById(submenuId);
+            submenu.classList.toggle('active');
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(event.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
